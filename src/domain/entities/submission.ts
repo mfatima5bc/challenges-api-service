@@ -8,7 +8,7 @@ enum Status {
   Done = 'DONE',
 }
 
-type StatusOptions = keyof typeof Status;
+export type StatusOptions = keyof typeof Status;
 
 export interface SubmissionProps {
   challengeId: UniqueEntityID;
@@ -64,7 +64,7 @@ export class Submission extends Entity<SubmissionProps> {
   ) {
     const submission = new Submission(
       {
-        status: 'Pending',
+        status: props.status ?? 'Pending',
         ...props,
         createdAt: props.createdAt ?? new Date(),
       },

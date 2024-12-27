@@ -1,7 +1,6 @@
 import { makeChallenge } from "test/factories/make-challenge";
 import { InMemoryChallengeRepository } from "test/repositories/in-memory-challenge-repository";
-import FetchChallengesUseCase from "./fetch-challenge";
-import { first } from "rxjs";
+import { FetchChallengesUseCase } from "./fetch-challenge";
 
 let inMemoryChallengeRepository: InMemoryChallengeRepository;
 let sut: FetchChallengesUseCase;

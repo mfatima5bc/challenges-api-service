@@ -6,6 +6,11 @@ export class Error<E, S> {
     this.value = value;
   }
 
+  get data(): E {
+    if (this.isError()) return this.value as E;
+    throw new Error('Cannot get error from a Success');
+  }
+
   isSuccess(): this is Success<E, S> {
     return false;
   }
@@ -21,6 +26,11 @@ export class Success<E, S> {
 
   constructor(value: S) {
     this.value = value;
+  }
+
+  get data(): S {
+    if (this.isSuccess()) return this.value as S;
+    throw new Error('Cannot get data from a Failure');
   }
 
   isSuccess(): this is Success<E, S> {

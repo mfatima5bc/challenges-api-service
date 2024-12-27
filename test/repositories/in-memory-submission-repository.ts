@@ -29,15 +29,16 @@ export class InMemorySubmissionRepository implements SubmissionRepository {
     startDate?: Date,
     endDate?: Date,
   ): Promise<{ hasMorePages: boolean, submissions: Submission[] }> {
-    const submissions = [...this.items]
+    const submissionsFiltered = [...this.items]
       .filter(
         (item) =>
           item.challengeId.toString() === challengeId &&
           status ? item.status === status : item &&
           startDate && endDate ? item.createdAt >= startDate && item.createdAt <=endDate : item 
-      )
+      );
+    const submissions = submissionsFiltered
       .slice((page - 1) * limit, page * limit);
-    const hasMorePages = limit * page <= this.items.length;
+    const hasMorePages = limit * page < submissionsFiltered.length;
     return { submissions, hasMorePages };
   }
 

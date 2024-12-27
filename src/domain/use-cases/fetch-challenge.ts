@@ -1,7 +1,7 @@
-import { success, ResponseType } from "@/core/types/response-type";
+import { PaginationParams } from "@/core/types/pagination-params";
+import { ResponseType, success } from "@/core/types/response-type";
 import { Challenge } from "../entities/challenge";
 import { ChallengeRepository } from "../repositories/challenge-repository";
-import { PaginationParams } from "@/core/types/pagination-params";
 
 interface FetchChallengeInput {
   params: PaginationParams;
@@ -9,7 +9,7 @@ interface FetchChallengeInput {
   description?: string;
 }
 
-type FetchChallengeOutput = ResponseType<
+export type FetchChallengeOutput = ResponseType<
   null,
   { hasMorePages: boolean, challenges: Challenge[] }>
 
