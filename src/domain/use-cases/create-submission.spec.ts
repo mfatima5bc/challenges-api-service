@@ -1,8 +1,10 @@
 import type { HttpAdapter } from '@/core/types/http-adapter';
 import { makeChallenge } from 'test/factories/make-challenge';
-import { FakeHttp } from 'test/http/fake-github-response-error';
+import { FakeHttpNotFound } from 'test/http/fake-github-response-not-found';
+import { FakeHttp } from 'test/http/fake-github-response-success';
 import { InMemoryChallengeRepository } from 'test/repositories/in-memory-challenge-repository';
 import { InMemorySubmissionRepository } from 'test/repositories/in-memory-submission-repository';
+import InvalidRepoError from '../errors/invalid-repo';
 import { CreateSubmissionUseCase } from './create-submission';
 
 let inMemoryChallengeRepository: InMemoryChallengeRepository;
@@ -36,7 +38,6 @@ describe('Submission', () => {
       repository: 'http://github.com/mfatima5bc/node-core-course',
       challengeId: challenge.id.toString(),
     });
-
     expect(result.isSuccess()).toBe(true);
     expect(inMemorySubmissionRepository.items[0]).toEqual(
       expect.objectContaining({
@@ -48,7 +49,15 @@ describe('Submission', () => {
     );
   });
 
-  it('Should not be able to create a invalid submission', async () => {
+  it('Should not be able to  submit a invalid url repo', async () => {
+    httpService = new FakeHttpNotFound();
+
+    sut = new CreateSubmissionUseCase(
+      inMemorySubmissionRepository,
+      inMemoryChallengeRepository,
+      httpService
+    );
+
     const data = {
       title: 'Nodejs streams exame',
       description:
@@ -58,18 +67,12 @@ describe('Submission', () => {
     await inMemoryChallengeRepository.create(challenge);
 
     const result = await sut.handle({
-      repository: 'http://github.com/mfatima5bc/node-core-course',
+      repository: 'http://github.com/mfatima5bc/node',
       challengeId: challenge.id.toString(),
     });
 
-    expect(result.isSuccess()).toBe(true);
-    expect(inMemorySubmissionRepository.items[0]).toEqual(
-      expect.objectContaining({
-        repository: 'http://github.com/mfatima5bc/node-core-course',
-      }),
-    );
-    expect(inMemorySubmissionRepository.items[0].challengeId).toEqual(
-      challenge.id,
-    );
+    expect(result.isError()).toBe(true);
+    expect(result.value).toBeInstanceOf(InvalidRepoError)
+
   });
 });

@@ -8,9 +8,9 @@ import { catchError, lastValueFrom, map, Observable } from "rxjs";
 export class AxiosAdapter implements HttpAdapter {
   constructor(private readonly axiosHttpAdapter: HttpService) {}
 
-  request<T>(config?: AxiosRequestConfig): Promise<T> {
+  request<T>(config?: AxiosRequestConfig): Promise<AxiosResponse | HttpException> {
     return lastValueFrom(this.axiosHttpAdapter.request(config).pipe(
-      map((response: AxiosResponse<T>) => response.data),
+      map((response: AxiosResponse<T>) => response),
       catchError(this.handleError)
     ));
   }

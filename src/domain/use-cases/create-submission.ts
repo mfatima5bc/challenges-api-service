@@ -37,8 +37,8 @@ export class CreateSubmissionUseCase {
     const { isValid, user, repo } = githubUrlValidation(repository);
     const repoData = await this.httpService.request({ url: `https://api.github.com/repos/${user}/${repo}`, method: 'get' })
 
-    if (!isValid || !repoData) {
-      return error(new InvalidRepoError(repository))
+    if (!isValid || repoData.status !== 200 || !repoData) {
+      return error(new InvalidRepoError(repository));
     }
 
     const submission = Submission.create({
