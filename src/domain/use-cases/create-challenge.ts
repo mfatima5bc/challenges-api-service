@@ -1,6 +1,6 @@
 import { success, type ResponseType } from '@/core/types/response-type';
 import { Challenge } from '../entities/challenge';
-import type { ChallengeRepository } from '../repositories/challenge-repository';
+import { ChallengeRepository } from '../repositories/challenge-repository';
 
 interface CreateChallengeUseCaseInput {
   title: string;

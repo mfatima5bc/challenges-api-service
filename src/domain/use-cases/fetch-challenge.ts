@@ -1,7 +1,7 @@
-import { success, type ResponseType } from "@/core/types/response-type";
+import { success, ResponseType } from "@/core/types/response-type";
 import { Challenge } from "../entities/challenge";
-import type { ChallengeRepository } from "../repositories/challenge-repository";
-import type { PaginationParams } from "@/core/types/pagination-params";
+import { ChallengeRepository } from "../repositories/challenge-repository";
+import { PaginationParams } from "@/core/types/pagination-params";
 
 interface FetchChallengeInput {
   params: PaginationParams;
@@ -13,7 +13,7 @@ type FetchChallengeOutput = ResponseType<
   null,
   { hasMorePages: boolean, challenges: Challenge[] }>
 
-export default class FetchChallengesUseCase {
+export class FetchChallengesUseCase {
   constructor(private repository: ChallengeRepository) {}
 
   async handle({ title, description, params }: FetchChallengeInput): Promise<FetchChallengeOutput> {

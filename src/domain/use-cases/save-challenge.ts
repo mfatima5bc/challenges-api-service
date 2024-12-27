@@ -1,7 +1,7 @@
 import { error, success, type ResponseType } from '@/core/types/response-type';
-import type { ChallengeRepository } from '../repositories/challenge-repository';
+import { ChallengeRepository } from '../repositories/challenge-repository';
 import ResourceNotFoundError from '@/domain/errors/resouce-not-found';
-import type { Challenge } from '../entities/challenge';
+import { Challenge } from '../entities/challenge';
 
 interface SaveChallengeUseCaseInput {
   id: string;

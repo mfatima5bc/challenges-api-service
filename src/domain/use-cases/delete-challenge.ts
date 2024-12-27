@@ -1,5 +1,5 @@
 import { error, success, type ResponseType } from '@/core/types/response-type';
-import type { ChallengeRepository } from '../repositories/challenge-repository';
+import { ChallengeRepository } from '../repositories/challenge-repository';
 import ResourceNotFoundError from '@/domain/errors/resouce-not-found';
 
 interface DeleteChallengeUseCaseInput {

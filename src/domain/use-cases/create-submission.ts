@@ -1,13 +1,13 @@
 import { UniqueEntityID } from "@/core/entities/unique-id";
-import type { HttpAdapter } from "@/core/types/http-adapter";
-import { error, success, type ResponseType } from "@/core/types/response-type";
+import { HttpAdapter } from "@/core/types/http-adapter";
+import { error, success, ResponseType } from "@/core/types/response-type";
 import githubUrlValidation from "@/core/utils/github-url-valdiator";
 import { Injectable } from "@nestjs/common";
 import { Submission } from "../entities/submission";
 import InvalidRepoError from "../errors/invalid-repo";
 import ResourceNotFoundError from "../errors/resouce-not-found";
-import type { ChallengeRepository } from "../repositories/challenge-repository";
-import type { SubmissionRepository } from "../repositories/submission-repository";
+import { ChallengeRepository } from "../repositories/challenge-repository";
+import { SubmissionRepository } from "../repositories/submission-repository";
 
 interface submissionUseCaseInput {
   repository: string;
