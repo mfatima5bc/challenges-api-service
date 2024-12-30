@@ -1,6 +1,6 @@
 import { UniqueEntityID } from '@/core/entities/unique-id';
 import { InMemoryChallengeRepository } from 'test/repositories/in-memory-challenge-repository';
-import CreateChallengeUseCase from './create-challenge';
+import { CreateChallengeUseCase } from './create-challenge';
 
 let inMemoryChallengeRepository: InMemoryChallengeRepository;
 let sut: CreateChallengeUseCase;

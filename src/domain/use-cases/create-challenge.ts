@@ -12,7 +12,7 @@ type CreateChallengeUseCaseOutput = ResponseType<
   { challenge: Challenge }
 >;
 
-export default class CreateChallengeUseCase {
+export class CreateChallengeUseCase {
   constructor(private repository: ChallengeRepository) {}
 
   async handle(
