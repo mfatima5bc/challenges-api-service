@@ -1,5 +1,8 @@
 import { CreateChallengeUseCase } from '@/domain/use-cases/create-challenge';
-import { ApolloFederationDriver, ApolloFederationDriverConfig } from '@nestjs/apollo';
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import path from 'node:path';
@@ -10,7 +13,7 @@ import { DateScalar } from './scalars/date.scalar';
 
 @Module({
   imports: [
-    AdapterModule, 
+    AdapterModule,
     DatabaseModule,
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
@@ -19,14 +22,10 @@ import { DateScalar } from './scalars/date.scalar';
       },
       autoSchemaFile: {
         federation: 2,
-        path: path.resolve(process.cwd(), 'src/schema.gql')
+        path: path.resolve(process.cwd(), 'src/schema.gql'),
       },
-    })
+    }),
   ],
-  providers: [
-    DateScalar, 
-    ChallengesResolver,
-    CreateChallengeUseCase
-  ]
+  providers: [CreateChallengeUseCase, ChallengesResolver, DateScalar],
 })
 export class HttpControllersModule {}

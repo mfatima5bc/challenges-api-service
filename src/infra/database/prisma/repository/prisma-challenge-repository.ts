@@ -1,15 +1,18 @@
 import { PaginationParams } from '@/core/types/pagination-params';
 import { Challenge } from '@/domain/entities/challenge';
 import { ChallengeRepository } from '@/domain/repositories/challenge-repository';
+import { Injectable } from '@nestjs/common';
 import { PrismaChallengeMapper } from '../mappers/prisma-challenge';
 import { PrismaService } from '../prisma.service';
 
+@Injectable()
 export class PrismaChallengeRepository implements ChallengeRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(challenge: Challenge): Promise<void> {
     const data = PrismaChallengeMapper.toPrisma(challenge);
 
+    await this.prisma.challenge.count()
     await this.prisma.challenge.create({ data });
   }
 

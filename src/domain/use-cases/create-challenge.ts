@@ -1,4 +1,5 @@
 import { success, type ResponseType } from '@/core/types/response-type';
+import { Injectable } from '@nestjs/common';
 import { Challenge } from '../entities/challenge';
 import { ChallengeRepository } from '../repositories/challenge-repository';
 
@@ -12,6 +13,8 @@ type CreateChallengeUseCaseOutput = ResponseType<
   { challenge: Challenge }
 >;
 
+
+@Injectable()
 export class CreateChallengeUseCase {
   constructor(private repository: ChallengeRepository) {}
 
