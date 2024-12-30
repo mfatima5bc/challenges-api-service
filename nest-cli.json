@@ -5,6 +5,14 @@
   "entryFile": "infra/main",
   "compilerOptions": {
     "deleteOutDir": true,
-    "builder": "swc"
+    "builder": "swc",
+    "plugins": [
+      {
+        "name": "@nestjs/graphql",
+        "options": {
+          "introspectComments": true
+        }
+      }
+    ]
   }
 }
