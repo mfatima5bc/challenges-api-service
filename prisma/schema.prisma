@@ -37,5 +37,5 @@ model Submission {
   updatedAt   DateTime?        @updatedAt @map("updated_at")
   challengeId String           @map("challenge_id")
 
-  challenge Challenge @relation(fields: [challengeId], references: [id])
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
 }
