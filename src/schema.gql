@@ -10,14 +10,30 @@ type Challenge {
   updatedAt: Date!
 }
 
+type PaginatedChallenge {
+  hasMorePages: Boolean!
+  items: [Challenge!]
+}
+
 """Date custom scalar type"""
 scalar Date
 
-type Mutation {
-  createChallenge(data: CreateChallenge!): Challenge!
+type Query {
+  fetchChallenges(params: fetchChallengesInput!): PaginatedChallenge!
 }
 
-input CreateChallenge {
+input fetchChallengesInput {
+  page: Int! = 0
+  limit: Int! = 10
+  title: String
+  description: String
+}
+
+type Mutation {
+  createChallenge(data: CreateChallengeInput!): Challenge!
+}
+
+input CreateChallengeInput {
   title: String!
   description: String!
 }

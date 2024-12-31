@@ -17,6 +17,4 @@ export class Challenge {
   @Field(() => Date)
   updatedAt: Date
 
-  // @Field(() => [Submission])
-  // submissions: Submission[]
 }

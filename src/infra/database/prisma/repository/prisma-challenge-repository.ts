@@ -46,17 +46,17 @@ export class PrismaChallengeRepository implements ChallengeRepository {
     const challenges = await this.prisma.$transaction([
       this.prisma.challenge.count({
         where: {
-          title: { contains: title },
-          description: { contains: description },
+          title: { contains: title || undefined },
+          description: { contains: description || undefined },
         },
       }),
       this.prisma.challenge.findMany({
         where: {
           title: {
-            contains: title,
+            contains: title || undefined,
           },
           description: {
-            contains: description,
+            contains: description || undefined,
           },
         },
         orderBy: {

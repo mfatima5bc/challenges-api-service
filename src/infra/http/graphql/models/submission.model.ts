@@ -1,5 +1,5 @@
 import { Directive, Field, ID, ObjectType, registerEnumType } from "@nestjs/graphql";
-import { Challenge } from "./challenge";
+import { Challenge } from "./challenge.model";
 
 export enum SubmissionStatus {
   Pending,

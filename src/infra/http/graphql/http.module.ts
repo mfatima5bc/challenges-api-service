@@ -1,4 +1,5 @@
 import { CreateChallengeUseCase } from '@/domain/use-cases/create-challenge';
+import { FetchChallengesUseCase } from '@/domain/use-cases/fetch-challenge';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
@@ -9,6 +10,7 @@ import path from 'node:path';
 import { AdapterModule } from '../../adapters/adapter.module';
 import { DatabaseModule } from '../../database/database.module';
 import { ChallengesResolver } from './resolvers/challenges.resolver';
+import { CreateChallengeResolver } from './resolvers/create-challenge.resolver';
 import { DateScalar } from './scalars/date.scalar';
 
 @Module({
@@ -26,6 +28,12 @@ import { DateScalar } from './scalars/date.scalar';
       },
     }),
   ],
-  providers: [CreateChallengeUseCase, ChallengesResolver, DateScalar],
+  providers: [
+    CreateChallengeUseCase, 
+    FetchChallengesUseCase,
+    ChallengesResolver, 
+    CreateChallengeResolver, 
+    DateScalar
+  ],
 })
 export class HttpControllersModule {}
