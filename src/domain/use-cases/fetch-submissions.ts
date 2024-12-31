@@ -4,6 +4,7 @@ import { StatusOptions, Submission } from '../entities/submission';
 import ResourceNotFoundError from '../errors/resouce-not-found';
 import { ChallengeRepository } from '../repositories/challenge-repository';
 import { SubmissionRepository } from '../repositories/submission-repository';
+import { Injectable } from '@nestjs/common';
 
 interface FetchSubmissionsUseCaseInput {
   params: PaginationParams;
@@ -17,7 +18,7 @@ type FetchSubmissionsUseCaseOutput = ResponseType<
   ResourceNotFoundError,
   { submissions: Submission[], hasMorePages: boolean }
 >;
-
+@Injectable()
 export class FetchSubmissionsUseCase {
   constructor(
     private readonly SubmissionRepository: SubmissionRepository,

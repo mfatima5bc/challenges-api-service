@@ -2,6 +2,7 @@ import { error, ResponseType, success } from '@/core/types/response-type';
 import { StatusOptions, Submission } from '../entities/submission';
 import ResourceNotFoundError from '../errors/resouce-not-found';
 import { SubmissionRepository } from '../repositories/submission-repository';
+import { Injectable } from '@nestjs/common';
 
 interface SaveSubmissionUseCaseInput {
   submissionId: string;
@@ -14,6 +15,7 @@ type SaveSubmissionUseCaseOutput = ResponseType<
   { submission: Submission }
 >;
 
+@Injectable()
 export class SaveSubmissionUseCase {
   constructor(private readonly submissionRepository: SubmissionRepository) {}
 

@@ -2,6 +2,7 @@ import { error, success, type ResponseType } from '@/core/types/response-type';
 import { ChallengeRepository } from '../repositories/challenge-repository';
 import ResourceNotFoundError from '@/domain/errors/resouce-not-found';
 import { Challenge } from '../entities/challenge';
+import { Injectable } from '@nestjs/common';
 
 interface SaveChallengeUseCaseInput {
   id: string;
@@ -14,6 +15,7 @@ type SaveChallengeUseCaseOutput = ResponseType<
   { challenge: Challenge }
 >;
 
+@Injectable()
 export class SaveChallengeUseCase {
   constructor(private repository: ChallengeRepository) {}
 
