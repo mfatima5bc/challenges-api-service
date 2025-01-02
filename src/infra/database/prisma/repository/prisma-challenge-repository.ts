@@ -69,7 +69,7 @@ export class PrismaChallengeRepository implements ChallengeRepository {
 
     return {
       challenges: challenges[1].map(PrismaChallengeMapper.toDomain),
-      hasMorePages: challenges[0] > limit,
+      hasMorePages: challenges[1].length === limit && (challenges[0] / limit) !== page,
     };
   }
 
