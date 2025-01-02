@@ -1,6 +1,6 @@
 import swc from 'unplugin-swc';
-import { configDefaults, defineConfig } from 'vitest/config';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
@@ -11,7 +11,7 @@ export default defineConfig({
       '@test': './test',
     },
     root: './',
-    // setupFiles: ['./test/setup-e2e.ts'],
+    setupFiles: ['./test/setup-e2e.ts'],
     exclude: [...configDefaults.exclude, '**/data/pg/**'],
   },
   resolve: {
