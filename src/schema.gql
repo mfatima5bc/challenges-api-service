@@ -15,6 +15,11 @@ type PaginatedChallenge {
   items: [Challenge!]
 }
 
+type DeleteResponse {
+  success: Boolean!
+  message: String
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -31,9 +36,21 @@ input fetchChallengesInput {
 
 type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
+  updateChallenge(data: UpdateChallengeInput!): Challenge!
+  deleteChallenge(data: DeleteChallengeInput!): DeleteResponse!
 }
 
 input CreateChallengeInput {
   title: String!
   description: String!
+}
+
+input UpdateChallengeInput {
+  title: String!
+  description: String!
+  id: String!
+}
+
+input DeleteChallengeInput {
+  id: String!
 }

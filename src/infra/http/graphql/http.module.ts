@@ -1,5 +1,7 @@
 import { CreateChallengeUseCase } from '@/domain/use-cases/create-challenge';
+import { DeleteChallengeUseCase } from '@/domain/use-cases/delete-challenge';
 import { FetchChallengesUseCase } from '@/domain/use-cases/fetch-challenge';
+import { SaveChallengeUseCase } from '@/domain/use-cases/save-challenge';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
@@ -11,13 +13,15 @@ import { AdapterModule } from '../../adapters/adapter.module';
 import { DatabaseModule } from '../../database/database.module';
 import { ChallengesResolver } from './resolvers/challenges.resolver';
 import { CreateChallengeResolver } from './resolvers/create-challenge.resolver';
+import { DeleteChallengeResolver } from './resolvers/delete-challenge.resolver';
+import { UpdateChallengeResolver } from './resolvers/update-challenge.resolver';
 import { DateScalar } from './scalars/date.scalar';
 
 @Module({
   imports: [
     AdapterModule,
     DatabaseModule,
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({ // TODO configure stacktrace erro just in development environment
       driver: ApolloFederationDriver,
       buildSchemaOptions: {
         dateScalarMode: 'timestamp',
@@ -31,8 +35,14 @@ import { DateScalar } from './scalars/date.scalar';
   providers: [
     CreateChallengeUseCase, 
     FetchChallengesUseCase,
+    SaveChallengeUseCase,
+    DeleteChallengeUseCase,
+
+    // Resolvers
     ChallengesResolver, 
     CreateChallengeResolver, 
+    UpdateChallengeResolver,
+    DeleteChallengeResolver,
     DateScalar
   ],
 })
