@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { ChallengeFactory } from 'test/factories/make-challenge';
 
-describe('Challenges list E2E', () => {
+describe('Challenges list (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let challengeFactory: ChallengeFactory;
@@ -24,12 +24,10 @@ describe('Challenges list E2E', () => {
     challengeFactory = moduleRef.get(ChallengeFactory);
 
     await app.init();
-  });
 
-  beforeEach(async () => {
-    await challengeFactory.makePrismaChallenge();
-    await challengeFactory.makePrismaChallenge();
-    await challengeFactory.makePrismaChallenge();
+    await challengeFactory.makePrismaChallenge({ title: 'Socket chat app', description: 'nodejs' });
+    await challengeFactory.makePrismaChallenge({ title: 'Admin with django', description: 'nodejs'});
+    await challengeFactory.makePrismaChallenge({ title: 'Mobile app', description: 'react native app'});
     await challengeFactory.makePrismaChallenge();
     await challengeFactory.makePrismaChallenge();
   });
@@ -50,11 +48,56 @@ describe('Challenges list E2E', () => {
         }
       `,
       });
-    console.log(response.body.data)
     
     const { data: { fetchChallenges: { hasMorePages, items } } } = response.body;
 
     expect(hasMorePages).toBe(true);
     expect(items.length).toBe(2);
+  });
+
+  it('Query challenges paginated with title filter', async () => {
+
+    const response = await request(app.getHttpServer())
+      .post('/graphql')
+      .send({
+        query: `
+        query {
+          fetchChallenges(params: { title: "Socket", page: 1, limit: 2 }) {
+            items {
+              title
+            }
+            hasMorePages
+          }
+        }
+      `,
+      });
+    
+    const { data: { fetchChallenges: { hasMorePages, items } } } = response.body;
+
+    expect(hasMorePages).toBe(false);
+    expect(items.length).toBe(1);
+  });
+
+  it('Query challenges paginated with filters', async () => {
+
+    const response = await request(app.getHttpServer())
+      .post('/graphql')
+      .send({
+        query: `
+        query {
+          fetchChallenges(params: { title: "Socket", description: "nodejs", page: 1, limit: 2 }) {
+            items {
+              title
+            }
+            hasMorePages
+          }
+        }
+      `,
+      });
+    
+    const { data: { fetchChallenges: { hasMorePages, items } } } = response.body;
+
+    expect(hasMorePages).toBe(false);
+    expect(items.length).toBe(1);
   });
 });

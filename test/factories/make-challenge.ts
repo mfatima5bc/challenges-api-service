@@ -26,7 +26,7 @@ export class ChallengeFactory {
   constructor(private prisma: PrismaService) {}
 
   async makePrismaChallenge(
-    data: Partial<ChallengeProps> = {}
+    data: Partial<ChallengeProps> = {},
   ): Promise<Challenge> {
     const challenge = makeChallenge(data);
 
