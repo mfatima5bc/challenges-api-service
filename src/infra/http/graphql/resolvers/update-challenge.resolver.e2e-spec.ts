@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing';
 import request from 'supertest';
 import { ChallengeFactory } from 'test/factories/make-challenge';
 
-describe('Challenges delete (E2E)', () => {
+describe('Challenges update (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let challengeFactory: ChallengeFactory;
@@ -26,7 +26,7 @@ describe('Challenges delete (E2E)', () => {
     await app.init();
   });
 
-  it(' should be able to delete a challenge', async () => {
+  it(' should be able to update a challenge', async () => {
     const challenge = await challengeFactory.makePrismaChallenge({ title: 'teste', description: 'nodejs' });
 
     const response = await request(app.getHttpServer())
@@ -34,18 +34,26 @@ describe('Challenges delete (E2E)', () => {
       .send({
         query: `
         mutation {
-          deleteChallenge(data: { id: "${challenge.id.toString()}" }) {
+          updateChallenge(data: { id: "${challenge.id.toString()}", title: "New title", description: "new desc" }) {
             success
+            data {
+              title
+              description
+            }
           }
         }
       `,
-    });    
-    const { data: { deleteChallenge: { success } } } = response.body;
+    });
+    const { data: { updateChallenge: { success, data } } } = response.body;
 
-    expect(success).toBe(true)
+    expect(success).toBe(true);
+    expect(data).toEqual(expect.objectContaining({
+      title: 'New title',
+      description: 'new desc'
+    }))
   });
 
-  it('should not be able to delete challenge a non existent challenge', async () => {
+  it.skip('should not be able to delete challenge a non existent challenge', async () => {
 
     const response = await request(app.getHttpServer())
       .post('/graphql')

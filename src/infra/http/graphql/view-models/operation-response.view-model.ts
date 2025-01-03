@@ -5,7 +5,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 export interface ResponseData<T> {
   success: boolean;
   message?: string;
-  data?: T | null;
+  data?: T;
 }
 
 export function responseData<T>(objResponse?: Type<T>): Type<ResponseData<T>> {
@@ -17,7 +17,7 @@ export function responseData<T>(objResponse?: Type<T>): Type<ResponseData<T>> {
     @Field({ nullable: true })
     message?: string;
 
-    @Field(() => [objResponse], { nullable: true })
+    @Field(() => objResponse, { nullable: true })
     data?: T;
   }
   return Response as Type<ResponseData<T>>;

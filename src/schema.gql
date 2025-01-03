@@ -20,6 +20,12 @@ type DeleteResponse {
   message: String
 }
 
+type UpdateResponse {
+  success: Boolean!
+  message: String
+  data: Challenge
+}
+
 """Date custom scalar type"""
 scalar Date
 
@@ -36,7 +42,7 @@ input fetchChallengesInput {
 
 type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
-  updateChallenge(data: UpdateChallengeInput!): Challenge!
+  updateChallenge(data: UpdateChallengeInput!): UpdateResponse!
   deleteChallenge(data: DeleteChallengeInput!): DeleteResponse!
 }
 
