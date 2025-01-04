@@ -1,5 +1,5 @@
 import type { PaginationParams } from '@/core/types/pagination-params';
-import type { Submission } from '@/domain/entities/submission';
+import type { StatusOptions, Submission } from '@/domain/entities/submission';
 
 export abstract class SubmissionRepository {
   abstract create(submission: Submission): Promise<void>;
@@ -8,7 +8,7 @@ export abstract class SubmissionRepository {
   abstract findMany(
     params: PaginationParams,
     challengeId: string,
-    status?: string,
+    status?: StatusOptions,
     startDate?: Date,
     endDate?: Date,
   ): Promise<{ hasMorePages: boolean, submissions: Submission[] | [] }>;

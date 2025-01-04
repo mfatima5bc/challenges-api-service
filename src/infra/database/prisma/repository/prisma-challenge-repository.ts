@@ -12,7 +12,6 @@ export class PrismaChallengeRepository implements ChallengeRepository {
   async create(challenge: Challenge): Promise<void> {
     const data = PrismaChallengeMapper.toPrisma(challenge);
 
-    await this.prisma.challenge.count()
     await this.prisma.challenge.create({ data });
   }
 

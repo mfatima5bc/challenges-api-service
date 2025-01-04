@@ -1,10 +1,10 @@
-import { Directive, Field, ID, ObjectType, registerEnumType } from "@nestjs/graphql";
+import { Field, ID, ObjectType, registerEnumType } from "@nestjs/graphql";
 import { Challenge } from "./challenge.model";
 
 export enum SubmissionStatus {
-  Pending,
-  Done,
-  Error
+  Pending = "Pending",
+  Done = "Done",
+  Error = "Error"
 }
 
 registerEnumType(SubmissionStatus, {
@@ -13,7 +13,7 @@ registerEnumType(SubmissionStatus, {
 });
 
 @ObjectType()
-@Directive('@key(fields: "challengeId")')
+// @Directive('@key(fields: "challengeId")')
 export class Submission {
   @Field(() => ID)
   id: string;
@@ -21,6 +21,7 @@ export class Submission {
   @Field(() => Challenge)
   challenge: Challenge;
 
+  @Field()
   challengeId: string;
 
   @Field()
@@ -30,7 +31,7 @@ export class Submission {
   status: SubmissionStatus
 
   @Field(() => Number)
-  score: number
+  score?: number
 
   @Field(() => Date)
   createdAt: Date

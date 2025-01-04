@@ -32,7 +32,7 @@ model Submission {
   id          String           @id @default(uuid())
   repoUrl     String           @map("repo_url")
   status      SubmissionStatus @default(Pending)
-  score       Decimal?
+  score       Float?
   createdAt   DateTime         @default(now()) @map("created_at")
   updatedAt   DateTime?        @updatedAt @map("updated_at")
   challengeId String           @map("challenge_id")

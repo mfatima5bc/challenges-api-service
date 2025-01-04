@@ -1,7 +1,10 @@
 import { CreateChallengeUseCase } from '@/domain/use-cases/create-challenge';
+import { CreateSubmissionUseCase } from '@/domain/use-cases/create-submission';
 import { DeleteChallengeUseCase } from '@/domain/use-cases/delete-challenge';
 import { FetchChallengesUseCase } from '@/domain/use-cases/fetch-challenge';
+import { GetChallengeByIdUseCase } from '@/domain/use-cases/get-challenge-by-id';
 import { SaveChallengeUseCase } from '@/domain/use-cases/save-challenge';
+import { SaveSubmissionUseCase } from '@/domain/use-cases/save-submission';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
@@ -13,7 +16,9 @@ import { AdapterModule } from '../../adapters/adapter.module';
 import { DatabaseModule } from '../../database/database.module';
 import { ChallengesResolver } from './resolvers/challenges.resolver';
 import { CreateChallengeResolver } from './resolvers/create-challenge.resolver';
+import { CreateSubmissionResolver } from './resolvers/create-submission.resolver';
 import { DeleteChallengeResolver } from './resolvers/delete-challenge.resolver';
+import { UpdateSubmissionResolver } from './resolvers/update-submission.resolver';
 import { UpdateChallengeResolver } from './resolvers/update-challenge.resolver';
 import { DateScalar } from './scalars/date.scalar';
 
@@ -37,13 +42,21 @@ import { DateScalar } from './scalars/date.scalar';
     FetchChallengesUseCase,
     SaveChallengeUseCase,
     DeleteChallengeUseCase,
-
+    CreateSubmissionUseCase,
+    GetChallengeByIdUseCase,
+    SaveSubmissionUseCase,
+    
     // Resolvers
     ChallengesResolver, 
     CreateChallengeResolver, 
     UpdateChallengeResolver,
     DeleteChallengeResolver,
+    CreateSubmissionResolver,
+    UpdateSubmissionResolver,
     DateScalar
+
+    // 
+    
   ],
 })
 export class HttpControllersModule {}

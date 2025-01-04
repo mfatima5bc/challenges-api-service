@@ -15,9 +15,39 @@ type PaginatedChallenge {
   items: [Challenge!]
 }
 
+type Submission {
+  id: ID!
+  challenge: Challenge!
+  challengeId: String!
+  repository: String!
+  status: SubmissionStatus!
+  score: Float!
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+"""Available purchase statuses"""
+enum SubmissionStatus {
+  Pending
+  Done
+  Error
+}
+
+type CreateSubmissionResponse {
+  success: Boolean!
+  message: String
+  data: Submission
+}
+
 type DeleteResponse {
   success: Boolean!
   message: String
+}
+
+type UpdateSubmissionResponse {
+  success: Boolean!
+  message: String
+  data: Submission
 }
 
 type UpdateResponse {
@@ -44,6 +74,8 @@ type Mutation {
   createChallenge(data: CreateChallengeInput!): Challenge!
   updateChallenge(data: UpdateChallengeInput!): UpdateResponse!
   deleteChallenge(data: DeleteChallengeInput!): DeleteResponse!
+  createSubmission(data: CreateSubmissionInput!): CreateSubmissionResponse!
+  updateSubmission(data: UpdateSubmissionInput!): UpdateSubmissionResponse!
 }
 
 input CreateChallengeInput {
@@ -59,4 +91,15 @@ input UpdateChallengeInput {
 
 input DeleteChallengeInput {
   id: String!
+}
+
+input CreateSubmissionInput {
+  repository: String!
+  challengeId: String!
+}
+
+input UpdateSubmissionInput {
+  score: Float!
+  status: SubmissionStatus!
+  submissionId: String!
 }

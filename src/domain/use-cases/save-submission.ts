@@ -1,8 +1,8 @@
 import { error, ResponseType, success } from '@/core/types/response-type';
+import { Injectable } from '@nestjs/common';
 import { StatusOptions, Submission } from '../entities/submission';
 import ResourceNotFoundError from '../errors/resouce-not-found';
 import { SubmissionRepository } from '../repositories/submission-repository';
-import { Injectable } from '@nestjs/common';
 
 interface SaveSubmissionUseCaseInput {
   submissionId: string;
@@ -24,16 +24,16 @@ export class SaveSubmissionUseCase {
     score,
     status,
   }: SaveSubmissionUseCaseInput): Promise<SaveSubmissionUseCaseOutput> {
-    const submission = await this.submissionRepository.findById(submissionId);
+    const submissionObj = await this.submissionRepository.findById(submissionId);
 
-    if (!submission) {
+    if (!submissionObj) {
       return error(new ResourceNotFoundError());
     }
 
-    submission.status = status;
-    submission.score = score;
+    submissionObj.status = status;
+    submissionObj.score = score;
 
-    await this.submissionRepository.save(submission);
-    return success({ submission });
+    await this.submissionRepository.save(submissionObj);
+    return success({ submission: submissionObj });
   }
 }

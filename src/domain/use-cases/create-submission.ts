@@ -1,6 +1,6 @@
 import { UniqueEntityID } from "@/core/entities/unique-id";
 import { HttpAdapter } from "@/core/types/http-adapter";
-import { error, success, ResponseType } from "@/core/types/response-type";
+import { error, ResponseType, success } from "@/core/types/response-type";
 import githubUrlValidation from "@/core/utils/github-url-valdiator";
 import { Injectable } from "@nestjs/common";
 import { Submission } from "../entities/submission";
@@ -35,19 +35,19 @@ export class CreateSubmissionUseCase {
     }
 
     const { isValid, user, repo } = githubUrlValidation(repository);
-    const repoData = await this.httpService.request({ url: `https://api.github.com/repos/${user}/${repo}`, method: 'get' })
-
+    const repoData = await this.httpService.request({ url: `https://api.github.com/repos/${user}/${repo}`, method: 'get' });
+    
     if (!isValid || repoData.status !== 200 || !repoData) {
       return error(new InvalidRepoError(repository));
     }
 
-    const submission = Submission.create({
+    const submissionObj = Submission.create({
       challengeId: new UniqueEntityID(challengeId),
       repository,
     });
 
-    await this.submissionRepository.create(submission);
+    await this.submissionRepository.create(submissionObj);
 
-    return success({submission});
+    return success({submission: submissionObj});
   }
 }
