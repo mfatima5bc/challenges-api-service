@@ -3,6 +3,7 @@ import { SaveSubmissionUseCase } from '@/domain/use-cases/save-submission';
 import { Args, Mutation, ObjectType, Parent, ResolveField, Resolver } from '@nestjs/graphql';
 import { UpdateSubmissionInput } from '../inputs/update-submission.input';
 import { Submission } from '../models/submission.model';
+import { ChallengeViewModel } from '../view-models/challenge.view-model';
 import { responseData } from '../view-models/operation-response.view-model';
 import { SubmissionViewModel } from '../view-models/submission.view-model';
 import { UseCaseErrorViewModel } from '../view-models/use-case-error.view-model';
@@ -23,7 +24,7 @@ export class UpdateSubmissionResolver {
       id: submission.challengeId,
     });
     if (result.isError()) return UseCaseErrorViewModel.toGraphQl(result.data);
-    return result.data.challenge;
+    return ChallengeViewModel.toGraphQl(result.data.challenge);
   }
 
   @Mutation(returns => UpdateSubmissionResponse)

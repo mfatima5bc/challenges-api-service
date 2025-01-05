@@ -44,10 +44,9 @@ type DeleteResponse {
   message: String
 }
 
-type UpdateSubmissionResponse {
-  success: Boolean!
-  message: String
-  data: Submission
+type SubmissionsResponse {
+  hasMorePages: Boolean!
+  items: [Submission!]
 }
 
 type UpdateResponse {
@@ -56,11 +55,18 @@ type UpdateResponse {
   data: Challenge
 }
 
+type UpdateSubmissionResponse {
+  success: Boolean!
+  message: String
+  data: Submission
+}
+
 """Date custom scalar type"""
 scalar Date
 
 type Query {
   fetchChallenges(params: fetchChallengesInput!): PaginatedChallenge!
+  fetchSubmissions(params: FetchSubmissionsInput!): SubmissionsResponse!
 }
 
 input fetchChallengesInput {
@@ -68,6 +74,15 @@ input fetchChallengesInput {
   limit: Int! = 10
   title: String
   description: String
+}
+
+input FetchSubmissionsInput {
+  page: Int! = 0
+  limit: Int! = 10
+  challengeId: String!
+  status: SubmissionStatus
+  startDate: Date
+  endDate: Date
 }
 
 type Mutation {
