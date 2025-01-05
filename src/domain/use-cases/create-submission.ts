@@ -35,18 +35,25 @@ export class CreateSubmissionUseCase {
     }
 
     const { isValid, user, repo } = githubUrlValidation(repository);
-    const repoData = await this.httpService.request({ url: `https://api.github.com/repos/${user}/${repo}`, method: 'get' });
-    
-    if (!isValid || repoData.status !== 200 || !repoData) {
-      return error(new InvalidRepoError(repository));
+    let repoData;
+
+    if (isValid) {
+      repoData = await this.httpService.request({ url: `https://api.github.com/repos/${user}/${repo}`, method: 'get' });
     }
+
+    const invalid = !isValid || repoData.status !== 200 ;
 
     const submissionObj = Submission.create({
       challengeId: new UniqueEntityID(challengeId),
       repository,
+      ...(invalid ? { status: 'Error' } : {} )
     });
 
     await this.submissionRepository.create(submissionObj);
+    
+    if (invalid) {
+      return error(new InvalidRepoError(repository));
+    }
 
     return success({submission: submissionObj});
   }
