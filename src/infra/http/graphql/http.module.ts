@@ -28,12 +28,8 @@ import { DateScalar } from './scalars/date.scalar';
   imports: [
     AdapterModule,
     DatabaseModule,
-    GraphQLModule.forRoot<ApolloFederationDriverConfig>({ // TODO configure stacktrace erro just in development environment
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
-      // buildSchemaOptions: {
-      //   dateScalarMode: 'timestamp',
-      // },
-      // resolvers: { Date: new DateScalar()},
       autoSchemaFile: {
         federation: 2,
         path: path.resolve(process.cwd(), 'src/schema.gql'),
