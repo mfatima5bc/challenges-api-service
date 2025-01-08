@@ -1,0 +1,7 @@
+**/*.js
+**/*.d.ts
+node_modules
+dist**/*.js
+**/*.d.ts
+node_modules
+dist

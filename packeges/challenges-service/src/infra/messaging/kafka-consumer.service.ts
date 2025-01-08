@@ -13,13 +13,13 @@ export class KafkaConsumerService
       subscribe: {fromBeginning: true},
       client: {
         requestTimeout: 10000,
-        clientId: 'challenges-consumer-teste',
+        clientId: 'challenges',
         brokers: [envService.get('KAFKA_BROKERS')],
         // ssl: true,
         logLevel: logLevel.ERROR,
       },
       consumer: {
-        groupId: 'challenges-consumer-teste',
+        groupId: 'challenges-consumer',
         allowAutoTopicCreation: false
       },
     });

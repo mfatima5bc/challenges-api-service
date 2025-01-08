@@ -4,30 +4,23 @@ import { ClientKafka } from '@nestjs/microservices';
 import { EnvService } from '../env/env.service';
 
 @Injectable()
-export class KafkaProducerService
+export class KafkaService
   extends ClientKafka
   implements OnModuleInit, OnModuleDestroy
 {
   constructor(
     config: ConfigService,
-    private envService: EnvService
+    private envService: EnvService,
   ) {
     super({
       client: {
-        clientId: 'challenges-consumer',
+        clientId: 'corrections',
         brokers: [envService.get('KAFKA_BROKERS')], // envService.get('KAFKA_BROKERS')
       },
-      consumer: {
-        groupId: 'challenges-consumer',
-        allowAutoTopicCreation: true
-      },
-      subscribe: {fromBeginning: true}
-    })
+    });
   }
 
   async onModuleInit() {
-    this.subscribeToResponseOf('corrections.correction')
-    
     await this.connect();
   }
 
