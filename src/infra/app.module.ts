@@ -4,7 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { envSchema } from './env/env';
 import { EnvModule } from './env/env.module';
 import { HttpControllersModule } from './http/graphql/http.module';
-import { DateScalar } from './http/graphql/scalars/date.scalar';
+import { MessagingModule } from './messaging/messaging.module';
 
 @Module({
   imports: [
@@ -12,9 +12,27 @@ import { DateScalar } from './http/graphql/scalars/date.scalar';
       validate: (env) => envSchema.parse(env),
       isGlobal: true,
     }),
-    HttpControllersModule,
-    DatabaseModule,
+    // ClientsModule.register([
+    //   {
+    //     name: 'challenges',
+    //     transport: Transport.KAFKA,
+    //     options: {
+    //       client: {
+    //         clientId: 'challenges-consumer',
+    //         brokers: ['localhost:29092'],
+    //       },
+    //       consumer: {
+    //         groupId: 'challenges-consumer',
+    //         allowAutoTopicCreation: true,
+    //       },
+    //       subscribe: {}
+    //     },
+    //   },
+    // ]),
     EnvModule,
+    DatabaseModule,
+    MessagingModule,
+    HttpControllersModule,
   ],
   providers: [],
 })

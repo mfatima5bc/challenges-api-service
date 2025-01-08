@@ -6,6 +6,7 @@ import { FetchSubmissionsUseCase } from '@/domain/use-cases/fetch-submissions';
 import { GetChallengeByIdUseCase } from '@/domain/use-cases/get-challenge-by-id';
 import { SaveChallengeUseCase } from '@/domain/use-cases/save-challenge';
 import { SaveSubmissionUseCase } from '@/domain/use-cases/save-submission';
+import { MessagingModule } from '@/infra/messaging/messaging.module';
 import {
   ApolloFederationDriver,
   ApolloFederationDriverConfig,
@@ -28,6 +29,7 @@ import { DateScalar } from './scalars/date.scalar';
   imports: [
     AdapterModule,
     DatabaseModule,
+    MessagingModule,
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
       driver: ApolloFederationDriver,
       autoSchemaFile: {
@@ -35,6 +37,7 @@ import { DateScalar } from './scalars/date.scalar';
         path: path.resolve(process.cwd(), 'src/schema.gql'),
       },
     }),
+
   ],
   providers: [
     // 

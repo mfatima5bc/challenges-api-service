@@ -4,11 +4,14 @@ import { SubmissionStatus } from "../models/submission.model";
 @InputType()
 export class UpdateSubmissionInput {
   @Field()
-  score: number;
+  grade: number;
 
   @Field()
   status: SubmissionStatus;
 
   @Field()
   submissionId: string;
+
+  @Field({nullable: true})
+  repositoryUrl?: string;
 }

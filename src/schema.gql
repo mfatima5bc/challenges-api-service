@@ -114,7 +114,8 @@ input CreateSubmissionInput {
 }
 
 input UpdateSubmissionInput {
-  score: Float!
+  grade: Float!
   status: SubmissionStatus!
   submissionId: String!
+  repositoryUrl: String
 }
