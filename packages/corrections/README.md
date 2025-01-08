@@ -29,6 +29,10 @@ $ npm ci
 
 ### Executando o app
 
+Antes de tudo certifique-se que o serviço do kafka esta executando, utilize o arquivo docker-compose.yml na raiz do projeto.
+
+Crie um arquivo no diretório atual com suas variáveis assim como o arquivo .env.example
+
 ```bash
 # development
 $ npm run start
