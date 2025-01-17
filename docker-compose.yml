@@ -8,10 +8,6 @@ services:
       - 5432:5432
     env_file:
       - .env
-    # environment:
-    #   POSTGRESQL_USERNAME: docker
-    #   POSTGRESQL_PASSWORD: docker
-    #   POSTGRESQL_DATABASE: rocketseat_challenge
     volumes:
       - "postgresql_data:/bitnami/postgresql"
     networks:
@@ -36,25 +32,26 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+      - "29094:29094"
     volumes:
       - "kafka_data:/bitnami"
+    networks:
+      - app-net
     environment:
       KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CFG_LISTENERS: INTERNAL://:9092,EXTERNAL://0.0.0.0:29092
-      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:29092
-      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_CFG_LISTENERS: INTERNAL://kafka:9092
+      KAFKA_CFG_ADVERTISED_LISTENERS: INTERNAL://kafka:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: INTERNAL
-      # optional - enable topic auto create
       KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
       ALLOW_PLAINTEXT_LISTENER: "yes"
     depends_on:
       - zookeeper
-    networks:
-      - app-net
 
   kafka_ui:
     image: provectuslabs/kafka-ui:master
     depends_on:
+      - zookeeper
       - kafka
     ports:
       - 8080:8080
@@ -64,6 +61,51 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+
+  corrections_service:
+    container_name: corrections_service
+    build:
+      context: ./packages/corrections
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file: 
+      # - .env
+      - ./packages/corrections/.env
+    networks:
+      - app-net
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+    ports:
+      - 3333:3333
+    volumes:
+      - "corrections_data:/usr/corrections-app"
+    depends_on:
+      - zookeeper
+      - postgres
+      - kafka
+
+  challenges_service:
+    container_name: challenges_service
+    build:
+      context: ./packages/challenges-service
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - ./packages/challenges-service/.env
+      # - ./.env
+    environment:
+      - KAFKA_BROKERS=kafka:9092
+    networks:
+      - app-net
+    ports:
+      - 3000:3000
+    volumes:
+      - "challenges_data:/usr/challenges-app"
+    depends_on:
+      - zookeeper
+      - postgres
+      - kafka
+      - corrections_service
 
 networks:
   app-net:
@@ -75,4 +117,8 @@ volumes:
   kafka_data:
     driver: local
   postgresql_data:
+    driver: local
+  challenges_data:
+    driver: local
+  corrections_data:
     driver: local
