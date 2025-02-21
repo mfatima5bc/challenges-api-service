@@ -11,9 +11,9 @@ RUN npm i
 
 COPY . .
 
-RUN npx run prisma generate
+RUN npx prisma generate
 
-RUN npx run prisma migrate
+RUN npx prisma migrate deploy
 
 RUN npm run build
 

@@ -14,6 +14,7 @@ import { Submission } from '../models/submission.model';
 import { responseData } from '../view-models/operation-response.view-model';
 import { SubmissionViewModel } from '../view-models/submission.view-model';
 import { UseCaseErrorViewModel } from '../view-models/use-case-error.view-model';
+import { Injectable } from '@nestjs/common';
 
 @ObjectType()
 class CreateSubmissionResponse extends responseData(Submission) {}

@@ -1,8 +1,7 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions } from '@nestjs/microservices';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 import { EnvService } from './env/env.service';
-import { KafkaConsumerService } from './messaging/kafka-consumer.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,11 +9,20 @@ async function bootstrap() {
 
   const envService = app.get(EnvService);
   const port = envService.get('PORT');
-  const kafkaConsumerService = app.get(KafkaConsumerService)
+  // const kafkaConsumerService = app.get(KafkaConsumerService)
   // const kafkaService = app.get(KafkaService)
 
   app.connectMicroservice<MicroserviceOptions>({
-    strategy: kafkaConsumerService
+    transport: Transport.KAFKA,
+    options: {
+      client: {
+        clientId: 'challenges',
+        brokers: [process.env.KAFKA_BROKERS],
+      },
+      consumer: {
+        groupId: 'challenges-consumer',
+      },
+    },
   });
 
   app.startAllMicroservices().then(() => {

@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { z } from 'zod';
 import { KafkaService } from './messaging/kafka.service';
 
@@ -24,7 +24,7 @@ interface CorrectLessonResponse {
 export class AppController {
   constructor(private readonly kafka: KafkaService) {}
 
-  @MessagePattern('challenges.new-submission')
+  @EventPattern('challenges.new-submission')
   correctLesson(
     @Payload() message: CorrectLessonMessage,
   ): CorrectLessonResponse {
@@ -35,6 +35,7 @@ export class AppController {
     }
 
     const { submissionId, repositoryUrl } = message;
+    console.log('message received');
 
     this.kafka.emit('corrections.correction', {
       value: {

@@ -24,6 +24,8 @@ import { SubmissionsResolver } from './resolvers/submissions.resolver';
 import { UpdateChallengeResolver } from './resolvers/update-challenge.resolver';
 import { UpdateSubmissionResolver } from './resolvers/update-submission.resolver';
 import { DateScalar } from './scalars/date.scalar';
+import { KafkaProducerService } from '@/infra/messaging/kafka.service';
+import { EnvModule } from '@/infra/env/env.module';
 
 @Module({
   imports: [
@@ -37,7 +39,7 @@ import { DateScalar } from './scalars/date.scalar';
         path: path.resolve(process.cwd(), 'src/schema.gql'),
       },
     }),
-
+    EnvModule
   ],
   providers: [
     // 

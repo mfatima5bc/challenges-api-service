@@ -75,10 +75,10 @@ O uso do graphql + apollo simplificou a implementação dos controllers visto qu
 Ainda no projeto `challenges` foi implementado a nível de domínio a regra de validação do repositório do github enviado na submissão, a nível ferramental implementei um adapter com axios onde implemento um método de request genérico e utilizo a biblioteca rxjs e seus métodos de realizar operações observáveis e capturar eventos específicos.
 <br />
 
-A implementação da service do Kafka...
+A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para p kafka creio que faz sentido para o objetivo desse projeto.
 
 No projeto de `corrections` a implementação é bem simples seguindo o padrão do nest.<br />
-A implementação da service do Kafka...
+A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para p kafka creio que faz sentido para o objetivo desse projeto, mesmo que o projeto de `corrections` seja simples, não segui a implementação `request-response` pois no cenário esperado as correções seriam feitas manualmente gerando então os eventos de correções.
 
 ## Execução dos projetos:
 

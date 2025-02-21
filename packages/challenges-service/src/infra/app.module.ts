@@ -12,23 +12,6 @@ import { MessagingModule } from './messaging/messaging.module';
       validate: (env) => envSchema.parse(env),
       isGlobal: true,
     }),
-    // ClientsModule.register([
-    //   {
-    //     name: 'challenges',
-    //     transport: Transport.KAFKA,
-    //     options: {
-    //       client: {
-    //         clientId: 'challenges-consumer',
-    //         brokers: ['localhost:29092'],
-    //       },
-    //       consumer: {
-    //         groupId: 'challenges-consumer',
-    //         allowAutoTopicCreation: true,
-    //       },
-    //       subscribe: {}
-    //     },
-    //   },
-    // ]),
     EnvModule,
     DatabaseModule,
     MessagingModule,

@@ -17,17 +17,16 @@ export class KafkaProducerService
         clientId: 'challenges',
         brokers: [envService.get('KAFKA_BROKERS')], // envService.get('KAFKA_BROKERS')
       },
-      consumer: {
-        groupId: 'challenges-consumer',
-        allowAutoTopicCreation: true
-      },
-      subscribe: {fromBeginning: true}
+      // consumer: {
+      //   groupId: 'challenges-consumer',
+      //   allowAutoTopicCreation: true
+      // },
+      // subscribe: {fromBeginning: true}
     })
   }
 
   async onModuleInit() {
-    this.subscribeToResponseOf('corrections.correction')
-    
+    // this.subscribeToResponseOf('corrections.correction')
     await this.connect();
   }
 

@@ -1,7 +1,7 @@
 import { Injectable, OnModuleDestroy } from '@nestjs/common';
 import { ServerKafka } from '@nestjs/microservices';
 import { logLevel } from '@nestjs/microservices/external/kafka.interface';
-import { EnvService } from '../env/env.service';
+import { EnvService } from '../../env/env.service';
 
 @Injectable()
 export class KafkaConsumerService

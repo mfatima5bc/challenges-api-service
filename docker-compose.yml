@@ -68,7 +68,7 @@ services:
       context: ./packages/corrections
       dockerfile: Dockerfile
     restart: on-failure
-    env_file: 
+    env_file:
       # - .env
       - ./packages/corrections/.env
     networks:
@@ -118,7 +118,7 @@ volumes:
     driver: local
   postgresql_data:
     driver: local
-  challenges_data:
-    driver: local
   corrections_data:
+    driver: local
+  challenges_data:
     driver: local

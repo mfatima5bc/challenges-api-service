@@ -1,6 +1,6 @@
 import { SaveSubmissionUseCase } from '@/domain/use-cases/save-submission';
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
+import { EventPattern, Payload } from '@nestjs/microservices';
 import { z } from 'zod';
 
 interface UpdateSubmissionMessage {
@@ -21,7 +21,7 @@ const schemaSubmission = z.object({
 export class UpdateSubmissionEventController {
   constructor(private readonly saveSubmissionUseCase: SaveSubmissionUseCase) {}
 
-  @MessagePattern('corrections.correction')
+  @EventPattern('corrections.correction')
   async handlerEvent(@Payload() data: UpdateSubmissionMessage) {
     const isValid = schemaSubmission.safeParse(data);
 
