@@ -6,7 +6,7 @@ O serviço `./packages/challenges-service` contem a api graphql de criação de 
 
 O serviço `./packages/corrections` contem o server que deve ouvir as submissões e enviar suas correções;
 
-## Business roles
+## Regras de negocio
 
 O serviço **'challenges-service'** devera ser responsável pela criação dos desafios e submissões, armazenando e gerenciando esses dados no banco de dados. Nesse sistema deverá ser possível realizar as seguintes operações:
 
@@ -69,31 +69,27 @@ O serviço de **'corrections'** deve ser notificado sempre que uma nova submiss�
 - apollo graphql
 
 ## Decisões arquiteturais
+
 O projeto `challenges` segue padrões de clean architecture e DDD, separando definições de negocio das definições ferramentais, com o uso do nest foi possível implementar um gerenciamento de injeção de dependências simples seguindo o padrão do framework.
 O uso do graphql + apollo simplificou a implementação dos controllers visto que as validações de dados ficam implícitas na tipagem embutida no protocolo.
 <br />
 Ainda no projeto `challenges` foi implementado a nível de domínio a regra de validação do repositório do github enviado na submissão, a nível ferramental implementei um adapter com axios onde implemento um método de request genérico e utilizo a biblioteca rxjs e seus métodos de realizar operações observáveis e capturar eventos específicos.
+A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para o kafka creio que faz sentido para o objetivo desse projeto.
 <br />
-
-A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para p kafka creio que faz sentido para o objetivo desse projeto.
-
 No projeto de `corrections` a implementação é bem simples seguindo o padrão do nest.<br />
-A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para p kafka creio que faz sentido para o objetivo desse projeto, mesmo que o projeto de `corrections` seja simples, não segui a implementação `request-response` pois no cenário esperado as correções seriam feitas manualmente gerando então os eventos de correções.
+A implementação da service do Kafka sigo o padrão `Event-based` que comentei anteriormente, mesmo que o projeto de `corrections` seja simples, não segui a implementação `request-response` pois no cenário esperado as correções seriam feitas manualmente gerando então os eventos de correções.
 
 ## Execução dos projetos:
 
 O projeto possui variáveis de ambiente, cada serviço possui um .env.example com as variáveis necessárias.
 Você deve replicar essas variáveis em um arquivo .env com suas credenciais.
 
-Antes de partir para a execução dos apps execute os containers do Kafka e postgres para que os serviços possam executar corretamente.
-Primeiro crie um arquivo .env no diretório atual com os dados do arquivo .env.example (altere os valores com suas credenciais), esse arquivo é responsável pelas variáveis necessárias para o postgres.
+Em seguida crie um arquivo .env no diretório atual com os dados do arquivo local .env.example (altere os valores com suas credenciais), esse arquivo é responsável pelas variáveis necessárias para o postgres.
 
-Em seguida execute o seguinte comando para iniciar o postgres e o kafka:
+Em seguida execute o seguinte comando para iniciar os serviços:
 
 ```bash
 $ docker compose up
 ```
-
-Com esses serviços rodando acesse as pastas dos projetos em `/packages` e siga as instruções nos README de cada projeto para executar os serviços.
 
 _O compose também irá iniciar o serviço do kafka ui caso queira conferir os tópicos._
