@@ -19,25 +19,6 @@ async function bootstrap() {
   });
 
   await app.startAllMicroservices();
-  await app.listen(3000);
-  // const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-  //   AppModule,
-  //   {
-  //     transport: Transport.KAFKA,
-  //     options: {
-  //       client: {
-  //         clientId: 'corrections',
-  //         brokers: [process.env.KAFKA_BROKERS], // process.env.KAFKA_BROKERS
-  //       },
-  //       consumer: {
-  //         groupId: 'corrections-consumer',
-  //       },
-  //     },
-  //   },
-  // );
-
-  // app.listen().then(() => {
-  //   console.log('Corrections service is running!');
-  // });
+  await app.listen(process.env.PORT);
 }
 bootstrap();

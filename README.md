@@ -1,10 +1,13 @@
+
 # 🚀 Back end challenges-submissions project
 
-O projeto possui dois serviços que devem se comunicar através de eventos no Kafka.
+## Visão geral
+
+Este projeto é composto por dois microsserviços independentes escritos em Node.js com NestJS, que se comunicam por meio de eventos Kafka em uma arquitetura event-driven. O objetivo do sistema é permitir o registro de desafios e submissões, bem como a correção automática das submissões através de mensagens assíncronas.
 
 O serviço `./packages/challenges-service` contem a api graphql de criação de desafios e submissões;
 
-O serviço `./packages/corrections` contem o server que deve ouvir as submissões e enviar suas correções;
+O serviço `./packages/corrections` contem o serviço que deve ouvir as submissões e enviar suas correções;
 
 ## Regras de negocio
 
@@ -68,23 +71,33 @@ O serviço de **'corrections'** deve ser notificado sempre que uma nova submiss�
 - graphql
 - apollo graphql
 
+
 ## Decisões arquiteturais
 
+### 🧩 Event-based Architecture
+Kafka foi utilizado com o modelo event-based ao invés de request-response, pois este projeto simula um cenário realista onde as correções poderiam ser feitas de forma assíncrona e independente do fluxo de submissão.
+- Permite escalabilidade horizontal dos consumidores.
+- Garante resiliência caso o serviço de correção esteja temporariamente offline.
+- Facilita rastreamento por meio de tópicos e logs.
+
+---
 O projeto `challenges` segue padrões de clean architecture e DDD, separando definições de negocio das definições ferramentais, com o uso do nest foi possível implementar um gerenciamento de injeção de dependências simples seguindo o padrão do framework.
 O uso do graphql + apollo simplificou a implementação dos controllers visto que as validações de dados ficam implícitas na tipagem embutida no protocolo.
+- Foi implementado a nível de domínio a regra de validação do repositório do github enviado na submissão, a nível ferramental implementei um adapter com axios onde implemento um método de request genérico e utilizo a biblioteca rxjs e seus métodos de realizar operações observáveis e capturar eventos específicos.
+- Para a paginação usei uma transaction personalizada para que fosse possível retornar se haviam mais itens para paginar, tendo em vista que o prisma não possui recursos específicos para paginação;
+- As tabelas com relacionamentos estão configuradas para deleção em cascata;
+- Como o Prisma não oferece suporte nativo a paginação baseada em cursor com total de itens restantes, foi implementada uma transação customizada com contagem auxiliar.
 <br />
-Ainda no projeto `challenges` foi implementado a nível de domínio a regra de validação do repositório do github enviado na submissão, a nível ferramental implementei um adapter com axios onde implemento um método de request genérico e utilizo a biblioteca rxjs e seus métodos de realizar operações observáveis e capturar eventos específicos.
-A implementação da service do Kafka optei pela implementação `Event-based` que além de ser a mais adequada para o kafka creio que faz sentido para o objetivo desse projeto.
-<br />
+
 No projeto de `corrections` a implementação é bem simples seguindo o padrão do nest.<br />
-A implementação da service do Kafka sigo o padrão `Event-based` que comentei anteriormente, mesmo que o projeto de `corrections` seja simples, não segui a implementação `request-response` pois no cenário esperado as correções seriam feitas manualmente gerando então os eventos de correções.
+- Para a implementação da service do Kafka sigo o padrão `Event-based` que comentei anteriormente, mesmo que o projeto de `corrections` seja simples, não segui a implementação `request-response` pois no cenário esperado as correções seriam feitas manualmente gerando então os eventos de correções.
 
 ## Execução dos projetos:
 
 O projeto possui variáveis de ambiente, cada serviço possui um .env.example com as variáveis necessárias.
 Você deve replicar essas variáveis em um arquivo .env com suas credenciais.
 
-Em seguida crie um arquivo .env no diretório atual com os dados do arquivo local .env.example (altere os valores com suas credenciais), esse arquivo é responsável pelas variáveis necessárias para o postgres.
+Em seguida crie um arquivo .env no diretório atual com os dados do arquivo local .env.example (altere os valores com suas credenciais), esse arquivo é responsável pelas variáveis necessárias para o Postgres.
 
 Em seguida execute o seguinte comando para iniciar os serviços:
 
